@@ -22,7 +22,7 @@ beforeAll((done) => {
 		done()
 	})
 })
-
+// remove skip when testing for c2
 
 describe.skip('Challenge 2 Titanic', () => {
 
