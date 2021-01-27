@@ -114,7 +114,7 @@ function getEmbarkedCount(data, embarked) {
 
 function getMinFare(data) {
 	const fare = data.filter( p => p.fields.fare != undefined).map(p => p.fields
-		.fare)
+	.fare)
 	const minFare = Math.min(...fare)
 	return minFare
 }
@@ -125,7 +125,7 @@ function getMinFare(data) {
 
 function getMaxFare(data) {
 	const fare = data.filter( p => p.fields.fare != undefined).map(p => p.fields
-		.fare)
+	.fare)
 	const maxFare = Math.max(...fare)
 	return maxFare
 }
@@ -161,14 +161,20 @@ function getCasualitiesByGender(data, gender) {
 // Return the total of all fares paid. 
 
 function getTotalFare(data) {
-	const tFare = data.reduce ((acc, p) => acc + p.fields.fare, 0)
+	const tFare = data.filter(p => p.fields.fare !== undefined).reduce
+	((acc, p) => acc + p.fields.fare, 0)
+	return tFare
 }
 
 // 16 --------------------------------------------------------------
 // Return the average fare paid.
 
 function getAverageFare(data) {
-	return 0
+	const fares = data.filter(p => p.fields.fare !== undefined)
+	.map(p => p.fields.fare)
+	.sort( (a, b) => a - b)
+	fareavg = (fares.reduce((acc, p) => acc + p, 0)) / fares.length
+	return fareavg
 }
 
 // 17 --------------------------------------------------------------
@@ -176,28 +182,43 @@ function getAverageFare(data) {
 // from the minimum and maximum values. 
 
 function getMedianFare(data) {
-	return 0
+	const mfare = data.filter(p => p.fields.fare !== undefined)
+	.map(p => p.fields.fare)
+	.sort( (a, b) => a - b)
+	return mfare.length / 2
 }
 
 // 18 --------------------------------------------------------------
 // Return the average age of all passengers. 
 
 function getAverageAge(data) {
-	return 0
+	const age = data.filter(p => p.fields.age !== undefined)
+	.map(p => p.fields.age)
+	.sort( (a, b) => a - b)
+	ageavg = (age.reduce((acc, p) => acc + p, 0)) / age.length
+	return ageavg
 }
 
 // 19 --------------------------------------------------------------
 // Return the median age from passengers. 
 
 function getMedianAge(data) {
-	return 0
+	const age = data.filter(p => p.fields.age !== undefined)
+	.map(p => p.fields.age)
+	.sort( (a, b) => a - b)
+	const mAge = age[age.length / 2]
+	return mAge
 }
 
 // 20 --------------------------------------------------------------
 // 
 
 function getAverageAgeByGender(data, gender) {
-	return 0
+	const ageG = data.filter(p => p.fields.sex == (gender))
+	.filter(p => p.fields.age !== undefined)
+	.map(p => p.fields.age)
+	ageavg = (ageG.reduce((acc, p) => acc + p, 0)) / ageG.length
+	return ageavg
 }
 
 
@@ -207,7 +228,6 @@ function getAverageAgeByGender(data, gender) {
 module.exports.getTotalPassengers = getTotalPassengers
 module.exports.getSurvivorCount = getSurvivorCount
 module.exports.getCasualityCount = getCasualityCount
-// module.exports.getUniqueValues = getUniqueValues
 module.exports.countPassengersInClass = countPassengersInClass
 module.exports.getSurvivorCountForClass = getSurvivorCountForClass
 module.exports.getCasualityCountForClass = getCasualityCountForClass
@@ -219,8 +239,6 @@ module.exports.getMinFare = getMinFare
 module.exports.getPassengersByGender = getPassengersByGender
 module.exports.getSurvivorsByGender = getSurvivorsByGender
 module.exports.getCasualitiesByGender = getCasualitiesByGender
-// module.exports.getSurvivorsByPClass = getSurvivorsByPClass
-// module.exports.getCasualitiesByPClass = getCasualitiesByPClass
 module.exports.getTotalFare = getTotalFare
 module.exports.getAverageFare = getAverageFare
 module.exports.getMedianFare = getMedianFare
